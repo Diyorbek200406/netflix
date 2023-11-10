@@ -18,10 +18,7 @@ const SearchBar = ({ setShowSearchBar }: Props) => {
         </div>
 
         <button className="px-2">
-          <AiOutlineSearch
-            onClick={() => setShowSearchBar((prev) => !prev)}
-            className="hidden sm:inline cursor-pointer sm:w-7 sm:h-7"
-          />
+          <AiOutlineSearch onClick={() => setShowSearchBar((prev) => !prev)} className="hidden sm:inline cursor-pointer sm:w-7 sm:h-7" />
         </button>
       </div>
     </div>

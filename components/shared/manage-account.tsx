@@ -105,10 +105,7 @@ const ManageAccount = () => {
                         />
                       </div>
                       {isDelete ? (
-                        <div
-                          onClick={() => onDelete(account._id)}
-                          className="absolute transform bottom-0 z-10 cursor-pointer"
-                        >
+                        <div onClick={() => onDelete(account._id)} className="absolute transform bottom-0 z-10 cursor-pointer">
                           <Trash2 className="w-7 h-7 text-red-600" />
                         </div>
                       ) : null}
@@ -147,12 +144,7 @@ const ManageAccount = () => {
         <DialogContent>
           {state === "login" && <LoginAccountForm currentAccount={currentAccount} />}
           {state === "create" && (
-            <CreateAccountForm
-              uid={session?.user?.uid}
-              setOpen={setOpen}
-              setAccounts={setAccounts}
-              accounts={accounts}
-            />
+            <CreateAccountForm uid={session?.user?.uid} setOpen={setOpen} setAccounts={setAccounts} accounts={accounts} />
           )}
         </DialogContent>
       </Dialog>

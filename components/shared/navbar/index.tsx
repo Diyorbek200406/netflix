@@ -7,13 +7,31 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useGlobalContext } from "@/context";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./search-bar";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const { account, setAccount } = useGlobalContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("account");
@@ -22,7 +40,12 @@ const Navbar = () => {
   };
   return (
     <div className="relative">
-      <header className="header h-[10vh] hover:bg-black transition-colors duration-300">
+      <header
+        className={cn(
+          "header h-[10vh] hover:bg-black transition-colors duration-400 ease-in-out",
+          isScrolled ? "bg-black" : "bg-transparent"
+        )}
+      >
         <div className="flex items-center h-full space-x-2 md:space-x-12">
           <Image
             width={120}
@@ -36,6 +59,7 @@ const Navbar = () => {
             {menuItems.map((menu: MenuItemProps) => {
               return (
                 <li
+                  onClick={() => router.push(menu.path)}
                   className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#3b3b3b]"
                   key={menu.path}
                 >

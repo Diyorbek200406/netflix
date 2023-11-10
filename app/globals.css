@@ -71,7 +71,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-600;
   }
 }
 
@@ -92,7 +92,7 @@
 
 .circleLoader:after {
   content: "";
-  background-image: url(https://assets.nflxext.com/en_us/pages/wiplayer/site-spinner.png);
+  background-image: url("https://assets.nflxext.com/en_us/pages/wiplayer/site-spinner.png");
   background-repeat: no-repeat;
   background-position-x: 50%;
   background-position-y: 50%;
