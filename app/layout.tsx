@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import { ThemeProvider } from "@/provider";
 import GlobalContext from "@/context";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <GlobalContext>{children}</GlobalContext>
+          <GlobalContext>
+            {children}
+            <Toaster />
+          </GlobalContext>
         </ThemeProvider>
       </body>
     </html>

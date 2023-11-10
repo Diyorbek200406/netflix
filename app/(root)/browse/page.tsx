@@ -1,14 +1,26 @@
 "use client";
 
-import Login from "@/components/shared/login";
 import { useGlobalContext } from "@/context";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import Login from "@/components/shared/login";
+import ManageAccount from "@/components/shared/manage-account";
+import Loader from "@/components/shared/loader";
+import Common from "@/components/shared/common";
 
 const Page = () => {
-  const { account } = useGlobalContext();
+  const { account, pageLoader, setPageLoader } = useGlobalContext();
+  const { data: session } = useSession();
 
-  if (account === null) return <Login />;
+  useEffect(() => {
+    setPageLoader(false);
+  }, []);
 
-  return <div>Page</div>;
+  if (session === null) return <Login />;
+  if (account === null) return <ManageAccount />;
+  if (pageLoader) return <Loader />;
+
+  return <Common />;
 };
 
 export default Page;

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { AiFillGithub } from "react-icons/ai";
-
+import { signIn } from "next-auth/react";
 const Login = () => {
   return (
     <div className="w-full h-screen">
@@ -15,7 +15,10 @@ const Login = () => {
 
       <div className="relative z-10 rounded-md w-[500px] bg-black/60 h-[50vh] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-4">
         <div className="flex h-full items-center justify-center">
-          <Button className="mt-4 flex items-center gap-2 w-full h-12 bg-red-600 !text-white hover:bg-red-500">
+          <Button
+            className="mt-4 flex items-center gap-2 w-full h-12 bg-red-600 !text-white hover:bg-red-500"
+            onClick={() => signIn("github")}
+          >
             <AiFillGithub className="w-7 h-7" />
             Sign In With Github
           </Button>
