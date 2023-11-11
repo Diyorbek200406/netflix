@@ -31,13 +31,19 @@ const Page = () => {
           { title: "Tranding Tv Shows", data: trandingTv },
           { title: "Top Rated Tv Shows", data: topRatedTv },
           { title: "Popular Tv Shows", data: popularTv },
-        ].map((item) => ({ ...item, data: item.data.map((movie: MovieProps) => ({ ...movie, type: "tv", addToFavorite: false })) }));
+        ].map((item) => ({
+          ...item,
+          data: item.data.map((movie: MovieProps) => ({ ...movie, type: "tv", addToFavorite: false })),
+        }));
 
         const moviesShows: MovieDataProps[] = [
           { title: "Tranding Movies", data: trandingMovie },
           { title: "Top Rated Movies", data: topRatedMovie },
           { title: "Popular Movies", data: popularMovie },
-        ].map((item) => ({ ...item, data: item.data.map((movie: MovieProps) => ({ ...movie, type: "movie", addToFavorite: false })) }));
+        ].map((item) => ({
+          ...item,
+          data: item.data.map((movie: MovieProps) => ({ ...movie, type: "movie", addToFavorite: false })),
+        }));
 
         const allMovies = [...tvShows, ...moviesShows];
 

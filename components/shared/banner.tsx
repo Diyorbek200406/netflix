@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalContext } from "@/context";
 import { MovieProps } from "@/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -13,17 +14,24 @@ interface Props {
 const Banner = ({ movies }: Props) => {
   const [randomMovie, setRandomMovie] = useState<MovieProps | null>(null);
 
+  const { account, setOpen, setMovie } = useGlobalContext();
   useEffect(() => {
     const movie = movies[Math.floor(Math.random() * movies.length)];
-
     setRandomMovie(movie);
   }, []);
+
+  const onHandlerPopup = () => {
+    setMovie(randomMovie);
+    setOpen(true);
+  };
 
   return (
     <div className="flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] lg:justify-end lg:pb-12 lg:pl-24">
       <div className="absolute top-0 left-0 h-[100vh] w-full -z-10">
         <Image
-          src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_UR}/${randomMovie?.backdrop_path || randomMovie?.poster_path}`}
+          src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_UR}/${
+            randomMovie?.backdrop_path || randomMovie?.poster_path
+          }`}
           alt={randomMovie?.name as string}
           fill
           objectFit="cover"
@@ -41,11 +49,17 @@ const Banner = ({ movies }: Props) => {
       </p>
 
       <div className="flex space-x-3">
-        <button className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 bg-white hover:text-black md:text-xl md:px-8 md:py-2.5 text-black">
+        <button
+          onClick={onHandlerPopup}
+          className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 bg-white hover:text-black md:text-xl md:px-8 md:py-2.5 text-black"
+        >
           <AiFillPlayCircle className="md:w-7 md:h-7 w-4 h4 cursor-pointer text-black" /> Play
         </button>
 
-        <button className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 bg-white hover:text-black md:text-xl md:px-8 md:py-2.5 text-black">
+        <button
+          onClick={onHandlerPopup}
+          className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 bg-white hover:text-black md:text-xl md:px-8 md:py-2.5 text-black"
+        >
           <IoMdInformationCircle className="md:w-7 md:h-7 w-4 h4 cursor-pointer text-black" /> More Info
         </button>
       </div>
