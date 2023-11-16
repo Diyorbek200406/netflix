@@ -8,16 +8,17 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     await connectToDatabase();
-    const { accountId, movieId, title, _id, uid, overview, type, poster_path, backdrop_path }: FavouriteProps =
-      await req.json();
+    const body: FavouriteProps = await req.json();
+
+    const { uid, movieId, accountId } = body;
 
     const isExist = await Favourite.findOne({ uid, movieId, accountId });
 
-    if (!isExist) {
+    if (isExist) {
       return NextResponse.json({ success: false, message: "Already added to favourite" });
     }
 
-    const favourite = await Favourite.create({ uid, accountId, movieId, type, poster_path, backdrop_path });
+    const favourite = await Favourite.create(body);
 
     return NextResponse.json({ success: true, data: favourite });
   } catch (error) {
@@ -36,7 +37,9 @@ export async function GET(req: Request) {
     const favourites = await Favourite.find({ uid, accountId });
 
     return NextResponse.json({ success: true, data: favourites });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json({ success: false, message: "Something went wrong" });
+  }
 }
 
 export async function DELETE(req: Request) {
@@ -50,6 +53,6 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ success: true, message: "Successfully deleted" });
   } catch (error) {
-    return NextResponse.json({ success: true, message: "Something went wrong" });
+    return NextResponse.json({ success: false, message: "Something went wrong" });
   }
 }

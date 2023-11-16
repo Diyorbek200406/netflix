@@ -8,7 +8,7 @@ export const menuItems: MenuItemProps[] = [
   },
   {
     id: "tv",
-    name: "TV Showa",
+    name: "TV Shows",
     path: "/tv",
   },
   {

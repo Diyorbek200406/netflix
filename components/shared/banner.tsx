@@ -15,6 +15,7 @@ const Banner = ({ movies }: Props) => {
   const [randomMovie, setRandomMovie] = useState<MovieProps | null>(null);
 
   const { account, setOpen, setMovie } = useGlobalContext();
+
   useEffect(() => {
     const movie = movies[Math.floor(Math.random() * movies.length)];
     setRandomMovie(movie);

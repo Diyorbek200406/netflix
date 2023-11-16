@@ -7,25 +7,27 @@ import Login from "@/components/shared/login";
 import ManageAccount from "@/components/shared/manage-account";
 import Loader from "@/components/shared/loader";
 import Common from "@/components/shared/common";
-import { getPopularMovies, getTopRatedMovies, getTrandingMovies } from "@/lib/api";
-import { MovieDataProps, MovieProps } from "@/types";
+import { getFavourites, getPopularMovies, getTopRatedMovies, getTrandingMovies } from "@/lib/api";
+import { FavouriteProps, MovieDataProps, MovieProps } from "@/types";
 
 const Page = () => {
   const [moviesData, setMoviesData] = useState<MovieDataProps[]>([]);
   const { account, pageLoader, setPageLoader } = useGlobalContext();
-  const { data: session } = useSession();
+  const { data: session }: any = useSession();
 
   useEffect(() => {
     const getAllMovies = async () => {
       try {
-        const [trandingTv, topRatedTv, popularTv, trandingMovie, topRatedMovie, popularMovie] = await Promise.all([
-          getTrandingMovies("tv"),
-          getTopRatedMovies("tv"),
-          getPopularMovies("tv"),
-          getTrandingMovies("movie"),
-          getTopRatedMovies("movie"),
-          getPopularMovies("movie"),
-        ]);
+        const [trandingTv, topRatedTv, popularTv, trandingMovie, topRatedMovie, popularMovie, favourites] =
+          await Promise.all([
+            getTrandingMovies("tv"),
+            getTopRatedMovies("tv"),
+            getPopularMovies("tv"),
+            getTrandingMovies("movie"),
+            getTopRatedMovies("movie"),
+            getPopularMovies("movie"),
+            getFavourites(session?.user?.uid, account?._id),
+          ]);
 
         const tvShows: MovieDataProps[] = [
           { title: "Tranding Tv Shows", data: trandingTv },
@@ -33,7 +35,13 @@ const Page = () => {
           { title: "Popular Tv Shows", data: popularTv },
         ].map((item) => ({
           ...item,
-          data: item.data.map((movie: MovieProps) => ({ ...movie, type: "tv", addToFavorite: false })),
+          data: item.data.map((movie: MovieProps) => ({
+            ...movie,
+            type: "tv",
+            addToFavorite: favourites.length
+              ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id)
+              : false,
+          })),
         }));
 
         const moviesShows: MovieDataProps[] = [
@@ -42,7 +50,13 @@ const Page = () => {
           { title: "Popular Movies", data: popularMovie },
         ].map((item) => ({
           ...item,
-          data: item.data.map((movie: MovieProps) => ({ ...movie, type: "movie", addToFavorite: false })),
+          data: item.data.map((movie: MovieProps) => ({
+            ...movie,
+            type: "movie",
+            addToFavorite: favourites.length
+              ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id)
+              : false,
+          })),
         }));
 
         const allMovies = [...tvShows, ...moviesShows];
@@ -56,7 +70,7 @@ const Page = () => {
     };
 
     getAllMovies();
-  }, []);
+  }, [session]);
 
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;
