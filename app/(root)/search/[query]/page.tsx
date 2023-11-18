@@ -49,7 +49,7 @@ const Page = () => {
     };
 
     getData();
-  }, []);
+  }, [params.query, setPageLoader]);
 
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;

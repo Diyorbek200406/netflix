@@ -38,7 +38,10 @@ const Tv = () => {
           { title: "Drama", data: drama },
           { title: "Family", data: family },
           { title: "War", data: war },
-        ].map((item) => ({ ...item, data: item.data.map((movie: MovieProps) => ({ ...movie, type: "tv", addToFavorite: false })) }));
+        ].map((item) => ({
+          ...item,
+          data: item.data.map((movie: MovieProps) => ({ ...movie, type: "tv", addToFavorite: false })),
+        }));
 
         setMoviesData(allResults);
       } catch (error) {
@@ -49,7 +52,7 @@ const Tv = () => {
     };
 
     getAllMovies();
-  }, []);
+  }, [setPageLoader]);
 
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;

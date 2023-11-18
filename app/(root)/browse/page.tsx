@@ -70,7 +70,7 @@ const Page = () => {
     };
 
     getAllMovies();
-  }, [session]);
+  }, [session, setPageLoader, account?._id]);
 
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;

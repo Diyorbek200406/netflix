@@ -19,7 +19,7 @@ const Banner = ({ movies }: Props) => {
   useEffect(() => {
     const movie = movies[Math.floor(Math.random() * movies.length)];
     setRandomMovie(movie);
-  }, []);
+  }, [movies]);
 
   const onHandlerPopup = () => {
     setMovie(randomMovie);

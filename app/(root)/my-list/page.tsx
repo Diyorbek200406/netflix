@@ -41,7 +41,7 @@ const Page = () => {
     if (session && account) {
       getData();
     }
-  }, [session, account]);
+  }, [session, account, setPageLoader]);
 
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;

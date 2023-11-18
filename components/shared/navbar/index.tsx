@@ -57,7 +57,7 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [session.user.uid]);
 
   const logout = () => {
     sessionStorage.removeItem("account");
