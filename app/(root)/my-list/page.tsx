@@ -10,6 +10,8 @@ import { useGlobalContext } from "@/context";
 import { getFavourites } from "@/lib/api";
 import { FavouriteProps, MovieProps } from "@/types";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -17,6 +19,8 @@ const Page = () => {
 
   const { data: session }: any = useSession();
   const { account, setPageLoader, pageLoader } = useGlobalContext();
+
+  const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
@@ -49,7 +53,32 @@ const Page = () => {
 
       <div className="md:px-12 px-4">
         {favourites && favourites.length === 0 ? (
-          <div className="mt-[12vh] ml-14">not found</div>
+          <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
+            <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
+              <div className="relative">
+                <div className="">
+                  <h1 className="my-2 text-gray-100 font-bold text-2xl">
+                    Looks like you don't have any favourites yet!
+                  </h1>
+                  <p className="my-2 text-gray-300">
+                    Sorry about that! Please visit our hompage to get where you need to go.
+                  </p>
+                  <button
+                    className="sm:w-full lg:w-auto my-2 border rounded md py-4 px-8 text-center bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50"
+                    onClick={() => {
+                      setPageLoader(true);
+                      router.push("/");
+                    }}
+                  >
+                    Take me there!
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img src="https://i.ibb.co/ck1SGFJ/Group.png" />
+            </div>
+          </div>
         ) : (
           <div className="h-40 space-y-1 md:space-x-2 px-4 mt-[12vh]">
             <h2 className="text-sm font-semibold cursor-pointer text-[#e5e5e5] transition-colors duration-200 hover:text-white md:text-2xl">
