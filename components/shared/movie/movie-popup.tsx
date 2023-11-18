@@ -129,7 +129,7 @@ const MoviePopup = () => {
                   similarMovies.length &&
                   similarMovies
                     .filter((item) => item.backdrop_path !== null && item.poster_path !== null)
-                    .map((movie) => <MovieItem movie={movie} key={movie.id} />)}
+                    .map((movie, index) => <MovieItem movie={movie} key={index} />)}
               </div>
             </div>
           </>

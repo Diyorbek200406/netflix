@@ -83,15 +83,15 @@ const Navbar = () => {
           />
 
           <ul className="hidden md:space-x-4 md:flex cursor-pointer">
-            {menuItems.map((menu: MenuItemProps) => {
+            {menuItems.map((menu: MenuItemProps, index) => {
               return (
                 <li
+                  key={index}
                   onClick={() => {
                     router.push(menu.path);
                     setPageLoader(true);
                   }}
                   className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#3b3b3b]"
-                  key={menu.path}
                 >
                   {menu.name}
                 </li>
@@ -128,8 +128,8 @@ const Navbar = () => {
             <PopoverContent className="mt-[20px]">
               {isLoading ? (
                 <div className="flex flex-col space-y-4">
-                  {[1, 2].map((item) => (
-                    <Skeleton className="w-full h-14" />
+                  {[1, 2].map((item, index) => (
+                    <Skeleton key={index} className="w-full h-14" />
                   ))}
                 </div>
               ) : (

@@ -64,7 +64,7 @@ const Page = () => {
         </h2>
 
         <div className="grid grid-cols-5 gap-3 items-center scrollbar-hide md:p-2">
-          {movies && movies.length ? movies.map((movie) => <MovieItem key={movie.id} movie={movie} />) : null}
+          {movies && movies.length ? movies.map((movie, index) => <MovieItem key={index} movie={movie} />) : null}
         </div>
       </div>
     </motion.div>
