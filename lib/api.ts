@@ -69,3 +69,12 @@ export const getFavourites = async (uid?: string, accountId?: string) => {
     console.log(e);
   }
 };
+
+export const getSearchResult = async (type: string, query: string) => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/search/${type}?api_key=${API_KEY}&language=en-US&query=${query}`);
+    return data && data.results;
+  } catch (e) {
+    console.log(e);
+  }
+};

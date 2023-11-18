@@ -88,23 +88,25 @@ const Page = () => {
             <div className="group relative md:ml-2 pb-12">
               <div className="grid grid-cols-5 gap-4">
                 {favourites &&
-                  favourites.map((movie: FavouriteProps, index) => (
-                    <MovieItem
-                      key={index}
-                      movie={
-                        {
-                          backdrop_path: movie?.backdrop_path,
-                          poster_path: movie?.poster_path,
-                          id: +movie?.movieId,
-                          type: movie?.type,
-                          title: movie?.title,
-                          overview: movie?.overview,
-                        } as MovieProps
-                      }
-                      favouriteId={movie._id}
-                      setFavourites={setFavourites}
-                    />
-                  ))}
+                  favourites
+                    .map((movie: FavouriteProps, index) => (
+                      <MovieItem
+                        key={index}
+                        movie={
+                          {
+                            backdrop_path: movie?.backdrop_path,
+                            poster_path: movie?.poster_path,
+                            id: +movie?.movieId,
+                            type: movie?.type,
+                            title: movie?.title,
+                            overview: movie?.overview,
+                          } as MovieProps
+                        }
+                        favouriteId={movie._id}
+                        setFavourites={setFavourites}
+                      />
+                    ))
+                    .reverse()}
               </div>
             </div>
           </div>
