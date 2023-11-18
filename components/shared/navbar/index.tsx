@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import MoviePopup from "../movie/movie-popup";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Navbar = () => {
@@ -80,6 +79,10 @@ const Navbar = () => {
             src={"https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"}
             alt="NETFLIX"
             className="cursor-pointer object-contain"
+            onClick={() => {
+              router.push("/");
+              setPageLoader(true);
+            }}
           />
 
           <ul className="hidden md:space-x-4 md:flex cursor-pointer">
