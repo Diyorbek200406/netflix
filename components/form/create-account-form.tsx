@@ -1,5 +1,4 @@
 "use client";
-
 import { CreateAccountSchema } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
@@ -11,25 +10,9 @@ import PinInput from "react-pin-input";
 import axios from "axios";
 import { AccountProps, AccountResponse } from "@/types";
 import { toast } from "../ui/use-toast";
-
-const CreateAccountForm = ({
-  uid,
-  setOpen,
-  setAccounts,
-  accounts,
-}: {
-  uid: string;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setAccounts: React.Dispatch<React.SetStateAction<AccountProps[]>>;
-  accounts: AccountProps[];
-}) => {
-  const form = useForm<zod.infer<typeof CreateAccountSchema>>({
-    resolver: zodResolver(CreateAccountSchema),
-    defaultValues: { name: "", pin: "" },
-  });
-
+const CreateAccountForm = ({ uid, setOpen, setAccounts, accounts }: { uid: string; setOpen: React.Dispatch<React.SetStateAction<boolean>>; setAccounts: React.Dispatch<React.SetStateAction<AccountProps[]>>; accounts: AccountProps[] }) => {
+  const form = useForm<zod.infer<typeof CreateAccountSchema>>({ resolver: zodResolver(CreateAccountSchema), defaultValues: { name: "", pin: "" } });
   const { isValid, isSubmitting } = form.formState;
-
   async function onSubmit(values: zod.infer<typeof CreateAccountSchema>) {
     try {
       const { data } = await axios.post<AccountResponse>("/api/account", { ...values, uid });
@@ -37,27 +20,14 @@ const CreateAccountForm = ({
         setOpen(false);
         form.reset();
         setAccounts([...accounts, data.data as AccountProps]);
-
-        return toast({
-          title: "Account created successfully",
-          description: "Your account has been created successfully",
-        });
+        return toast({ title: "Account created successfully", description: "Your account has been created successfully" });
       } else {
-        return toast({
-          title: "Error",
-          description: data.message,
-          variant: "destructive",
-        });
+        return toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      return toast({
-        title: "Error",
-        description: "Something went wrong",
-        variant: "destructive",
-      });
+      return toast({ title: "Error", description: "Something went wrong", variant: "destructive" });
     }
   }
-
   return (
     <>
       <h1 className="text-white text-center font-bold text-3xl">Create Your Account</h1>
@@ -78,7 +48,6 @@ const CreateAccountForm = ({
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="pin"
@@ -109,12 +78,7 @@ const CreateAccountForm = ({
               </FormItem>
             )}
           />
-
-          <Button
-            type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 flex justify-center items-center h-[56px] !text-white mt-4"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 flex justify-center items-center h-[56px] !text-white mt-4" disabled={isSubmitting}>
             Create Account
           </Button>
         </form>
@@ -122,5 +86,4 @@ const CreateAccountForm = ({
     </>
   );
 };
-
 export default CreateAccountForm;

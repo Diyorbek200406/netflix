@@ -1,5 +1,4 @@
 "use client";
-
 import { menuItems } from "@/constants";
 import { AccountProps, AccountResponse, MenuItemProps } from "@/types";
 import Image from "next/image";
@@ -15,7 +14,6 @@ import MoviePopup from "../movie/movie-popup";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-
 const Navbar = () => {
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -30,22 +28,14 @@ const Navbar = () => {
       setIsLoading(true);
       try {
         const { data } = await axios.get<AccountResponse>(`/api/account?uid=${session.user.uid}`);
-        if (data.success) {
-          setAccounts(data?.data as AccountProps[]);
-        }
+        if (data.success) setAccounts(data?.data as AccountProps[]);
       } catch (error) {
-        return toast({
-          title: "Error",
-          description: "Something went wrong",
-          variant: "destructive",
-        });
+        return toast({ title: "Error", description: "Something went wrong", variant: "destructive" });
       } finally {
         setIsLoading(false);
       }
     };
-
     GetAllAccounts();
-
     const handleScroll = () => {
       if (window.scrollY > 100) {
         setIsScrolled(true);
@@ -53,9 +43,7 @@ const Navbar = () => {
         setIsScrolled(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [session.user.uid]);
 
@@ -66,12 +54,7 @@ const Navbar = () => {
   };
   return (
     <div className="relative">
-      <header
-        className={cn(
-          "header h-[10vh] hover:bg-black transition-colors duration-400 z-[9999] ease-in-out",
-          isScrolled ? "bg-black" : "bg-transparent"
-        )}
-      >
+      <header className={cn("header h-[10vh] hover:bg-black transition-colors duration-400 z-[9999] ease-in-out", isScrolled ? "bg-black" : "bg-transparent")}>
         <div className="flex items-center h-full space-x-2 md:space-x-12">
           <Image
             width={120}
@@ -102,29 +85,14 @@ const Navbar = () => {
             })}
           </ul>
         </div>
-
         <MoviePopup />
-
         <div className="font-light flex items-center space-x-4 text-sm">
-          {showSearchBar ? (
-            <SearchBar setShowSearchBar={setShowSearchBar} />
-          ) : (
-            <AiOutlineSearch
-              onClick={() => setShowSearchBar((prev) => !prev)}
-              className="hidden sm:inline sm:w-7 sm:h-7 cursor-pointer"
-            />
-          )}
+          {showSearchBar ? <SearchBar setShowSearchBar={setShowSearchBar} /> : <AiOutlineSearch onClick={() => setShowSearchBar((prev) => !prev)} className="hidden sm:inline sm:w-7 sm:h-7 cursor-pointer" />}
 
           <Popover>
             <PopoverTrigger>
               <div className="flex items-center gap-2 cursor-pointer">
-                <img
-                  src={
-                    "https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"
-                  }
-                  alt="Current Profile"
-                  className="max-w-[30px] min-w-[20px] max-h-[30px] min-h-[20px] w-[30px] h-[30px] object-cover rounded"
-                />
+                <img src={"https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"} alt="Current Profile" className="max-w-[30px] min-w-[20px] max-h-[30px] min-h-[20px] w-[30px] h-[30px] object-cover rounded" />
                 <p className="text-white">{account && account.name}</p>
               </div>
             </PopoverTrigger>
@@ -146,25 +114,13 @@ const Navbar = () => {
                     }}
                     className="cursor-pointer flex h-14 gap-3 hover:bg-slate-800 rounded-md items-center px-4 py-2"
                   >
-                    <img
-                      src={
-                        "https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"
-                      }
-                      alt="Current Profile"
-                      className="max-w-[30px] min-w-[20px] max-h-[30px] min-h-[20px] w-[30px] h-[30px] object-cover rounded"
-                    />
+                    <img src={"https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"} alt="Current Profile" className="max-w-[30px] min-w-[20px] max-h-[30px] min-h-[20px] w-[30px] h-[30px] object-cover rounded" />
                     <p className="text-white">{account && account.name}</p>
                   </div>
                 ))
               )}
 
-              <button
-                onClick={logout}
-                className={cn(
-                  "text-center w-full h-[56px] text-sm font-light hover:bg-slate-800 rounded-md py-2 border border-white/40",
-                  !isLoading && "mt-4"
-                )}
-              >
+              <button onClick={logout} className={cn("text-center w-full h-[56px] text-sm font-light hover:bg-slate-800 rounded-md py-2 border border-white/40", !isLoading && "mt-4")}>
                 Sign out of Netflix
               </button>
             </PopoverContent>

@@ -27,16 +27,9 @@ const ManageAccount = () => {
       setIsLoading(true);
       try {
         const { data } = await axios.get<AccountResponse>(`/api/account?uid=${session?.user?.uid}`);
-
-        if (data.success) {
-          setAccounts(data.data as AccountProps[]);
-        }
+        if (data.success) setAccounts(data.data as AccountProps[]);
       } catch (error) {
-        return toast({
-          title: "Error",
-          description: "Something went wrong",
-          variant: "destructive",
-        });
+        return toast({ title: "Error", description: "Something went wrong", variant: "destructive" });
       } finally {
         setIsLoading(false);
       }
@@ -55,25 +48,16 @@ const ManageAccount = () => {
         if (data.success) {
           setAccounts(accounts.filter((account) => account._id !== id));
 
-          return toast({
-            title: "Account deleted successfully",
-            description: "The account has been deleted successfully",
-          });
+          return toast({ title: "Account deleted successfully", description: "The account has been deleted successfully" });
         } else {
           return toast({ title: "Error", description: data.message, variant: "destructive" });
         }
       }
     } catch (error) {
-      return toast({
-        title: "Error",
-        description: "An error occurred while deleting the account",
-        variant: "destructive",
-      });
+      return toast({ title: "Error", description: "An error occurred while deleting the account", variant: "destructive" });
     }
   };
-
   if (isLoading) return <Loader />;
-
   return (
     <div className="min-h-screen flex justify-center flex-col items-center relative">
       <div className="flex justify-center flex-col items-center">
@@ -96,19 +80,10 @@ const ManageAccount = () => {
                   >
                     <div className="relative">
                       <div className="max-w-[160px] max-h-[160px] min-w-[84px] min-h-[84px] w-[160px] h-[160px] rounded object-cover relative">
-                        <Image
-                          src={
-                            "https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"
-                          }
-                          alt="account"
-                          fill
-                        />
+                        <Image src={"https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"} alt="account" fill />
                       </div>
                       {isDelete ? (
-                        <div
-                          onClick={() => onDelete(account._id)}
-                          className="absolute transform bottom-0 z-10 cursor-pointer"
-                        >
+                        <div onClick={() => onDelete(account._id)} className="absolute transform bottom-0 z-10 cursor-pointer">
                           <Trash2 className="w-7 h-7 text-red-600" />
                         </div>
                       ) : null}
@@ -135,10 +110,7 @@ const ManageAccount = () => {
           )}
         </ul>
 
-        <Button
-          onClick={() => setIsDelete((prev) => !prev)}
-          className="bg-transparent hover:bg-transparent !text-white border border-gray-200 cursor-pointer tracking-wide inline-flex text-sm p-[1.5em]"
-        >
+        <Button onClick={() => setIsDelete((prev) => !prev)} className="bg-transparent hover:bg-transparent !text-white border border-gray-200 cursor-pointer tracking-wide inline-flex text-sm p-[1.5em]">
           Manage Account
         </Button>
       </div>
@@ -146,14 +118,7 @@ const ManageAccount = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           {state === "login" && <LoginAccountForm currentAccount={currentAccount} />}
-          {state === "create" && (
-            <CreateAccountForm
-              uid={session?.user?.uid}
-              setOpen={setOpen}
-              setAccounts={setAccounts}
-              accounts={accounts}
-            />
-          )}
+          {state === "create" && <CreateAccountForm uid={session?.user?.uid} setOpen={setOpen} setAccounts={setAccounts} accounts={accounts} />}
         </DialogContent>
       </Dialog>
     </div>

@@ -5,14 +5,8 @@ import { ReactNode } from "react";
 import { ThemeProvider } from "@/provider";
 import GlobalContext from "@/context";
 import { Toaster } from "@/components/ui/toaster";
-
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Netflix",
-  description: "Netflix built in Next Js",
-};
-
+export const metadata: Metadata = { title: "Netflix", description: "Netflix built in Next Js" };
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
