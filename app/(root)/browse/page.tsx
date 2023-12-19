@@ -18,17 +18,7 @@ const Page = () => {
   useEffect(() => {
     const getAllMovies = async () => {
       try {
-        const [trandingTv, topRatedTv, popularTv, trandingMovie, topRatedMovie, popularMovie, favourites] =
-          await Promise.all([
-            getTrandingMovies("tv"),
-            getTopRatedMovies("tv"),
-            getPopularMovies("tv"),
-            getTrandingMovies("movie"),
-            getTopRatedMovies("movie"),
-            getPopularMovies("movie"),
-            getFavourites(session?.user?.uid, account?._id),
-          ]);
-
+        const [trandingTv, topRatedTv, popularTv, trandingMovie, topRatedMovie, popularMovie, favourites] = await Promise.all([getTrandingMovies("tv"), getTopRatedMovies("tv"), getPopularMovies("tv"), getTrandingMovies("movie"), getTopRatedMovies("movie"), getPopularMovies("movie"), getFavourites(session?.user?.uid, account?._id)]);
         const tvShows: MovieDataProps[] = [
           { title: "Tranding Tv Shows", data: trandingTv },
           { title: "Top Rated Tv Shows", data: topRatedTv },
@@ -38,12 +28,9 @@ const Page = () => {
           data: item.data.map((movie: MovieProps) => ({
             ...movie,
             type: "tv",
-            addToFavorite: favourites.length
-              ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id)
-              : false,
+            addToFavorite: favourites.length ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id) : false,
           })),
         }));
-
         const moviesShows: MovieDataProps[] = [
           { title: "Tranding Movies", data: trandingMovie },
           { title: "Top Rated Movies", data: topRatedMovie },
@@ -53,14 +40,10 @@ const Page = () => {
           data: item.data.map((movie: MovieProps) => ({
             ...movie,
             type: "movie",
-            addToFavorite: favourites.length
-              ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id)
-              : false,
+            addToFavorite: favourites.length ? favourites.map((item: FavouriteProps) => item.movieId).indexOf(movie?.id) : false,
           })),
         }));
-
         const allMovies = [...tvShows, ...moviesShows];
-
         setMoviesData(allMovies);
       } catch (error) {
         console.log(error);
@@ -71,11 +54,9 @@ const Page = () => {
 
     getAllMovies();
   }, [session, setPageLoader, account?._id]);
-
   if (session === null) return <Login />;
   if (account === null) return <ManageAccount />;
   if (pageLoader) return <Loader />;
-
   return <Common moviesData={moviesData} />;
 };
 
